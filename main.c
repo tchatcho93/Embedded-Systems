@@ -1,12 +1,9 @@
-#include <stdio.h>
-
 #define CST(addr) *((volatile unsigned int *)(addr))
 
 
-#define RCC_BASE				(0x40023800UL)
+#define RCC_BASE				(0x40023800UL) // 
 #define AHBEN_R_OFFSET			(0x1CUL)	
-#define RCC_AHBEN_R				(*(volatile unsigned int *)(RCC_BASE + AHBEN_R_OFFSET))
-
+#define RCC_AHBEN_R				(*(volatile unsigned int *)(RCC_BASE + AHBEN_R_OFFSET)) //0x40022381c
 #define GPIOAEN					(1U<<0)
 
 #define GPIOA_BASE 				(0x40020000UL)
@@ -30,6 +27,7 @@
 int main(void)
 {
 
+	/*Activer le periph */
 	RCC_AHBEN_R |= GPIOAEN;
 
  	/* Configure Pin 5 as output */	
@@ -45,9 +43,10 @@ int main(void)
 
 		//GPIOA_ODR |= LED;
 		
-		GPIOA_ODR ^= LED;
+		GPIOA_ODR |= LED;
+		for (i = 0; i < 1000000; i++) {}
+		GPIOA_ODR &= ~LED;
 		for (i = 0; i < 1000000; i++) {}
 	}
-	
 	return 0;
 }
